@@ -9,7 +9,7 @@ public abstract class State {
         this.state="Created";
         this.order = order;
     }
-
+    public abstract String getState();
     public abstract String inProcess();
     public abstract String done();
     public abstract String rejected();

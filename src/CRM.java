@@ -1,3 +1,4 @@
+import builder.Order;
 import composite.Director;
 import composite.Doc;
 import composite.Status;
@@ -5,12 +6,16 @@ import composite.Worker;
 import facade.CRMFacade;
 import medCenter.ASAP;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CRM {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         Integer chose=-1;
+        List<Order> orderList=new ArrayList<>();
+
         Director director=new Director(new ASAP(), Status.DIRECTOR,"Someone Someone",500000.0);
         Doc doc=new Doc(new ASAP(),Status.DOCTOR,"Amanov Rakhmatulla",50000.0);
         director.add(doc);
@@ -23,6 +28,7 @@ public class CRM {
             System.out.println("4.All workers");
             System.out.println("5.Assign worker");
             System.out.println("6.Change salary ");
+            System.out.println("7.Get order");
             System.out.println("0.Exit");
             chose=in.nextInt();
             switch (chose){
@@ -59,6 +65,8 @@ public class CRM {
                     s=in.nextLine();
                     crmFacade.changeSalary(s);
                     break;
+                case 7:
+                    crmFacade.getOrder(orderList);
                 case 0:
                     System.exit(0);
                     break;

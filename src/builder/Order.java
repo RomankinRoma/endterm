@@ -81,6 +81,14 @@ public class Order {
         this.food = food;
     }
 
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         if (food!=null || medicine!=null)

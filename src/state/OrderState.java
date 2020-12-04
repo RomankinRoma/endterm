@@ -8,6 +8,11 @@ public class OrderState extends State {
     }
 
     @Override
+    public String getState() {
+        return state;
+    }
+
+    @Override
     public String inProcess() {
         state="Order in process";
         return state;

@@ -1,5 +1,6 @@
 package facade;
 
+import builder.Order;
 import builder.OrderFactory;
 import composite.*;
 import medCenter.ASAP;
@@ -29,7 +30,7 @@ public class CRMFacade {
 
     public void addWorkerToCompany() {
         System.out.print("Input full name:");
-        String fullName ;
+        String fullName;
         fullName = in.nextLine();
         fullName = in.nextLine();
         System.out.println("Choose id of medical center:");
@@ -87,7 +88,7 @@ public class CRMFacade {
         Double i = inDe == 1 ? 1.0 : -1.0;
         System.out.println("Input amount:");
         Double amount = in.nextDouble();
-        amount*=i;
+        amount *= i;
         Worker worker = findWorker(s, director);
         Visitor visitor = new VisitorImpl();
         if (worker != null) {
@@ -99,7 +100,7 @@ public class CRMFacade {
     }
 
     public void workerList(Worker worker) {
-        if (worker.getStatus().equals(Status.DIRECTOR)){
+        if (worker.getStatus().equals(Status.DIRECTOR)) {
             System.out.println(worker.toString());
         }
         for (Worker workr : worker.list()) {
@@ -110,6 +111,75 @@ public class CRMFacade {
         }
     }
 
+    public void getOrder(List<Order> orders) {
+        System.out.println("1.Take order");
+        System.out.println("2.Reject order");
+        System.out.println("3.Close order");
+        int chose = in.nextInt();
+        if (chose == 1) {
+            takeOrder(orders);
+        } else if (chose == 2)
+            rejectOrder(orders);
+        else if (chose == 3)
+            orderDone(orders);
+        else {
+            System.out.println("Wrong chose");
+            getOrder(orders);
+        }
+    }
+
+    public void takeOrder(List<Order> orders) {
+        orders.forEach(order -> {
+            if (order.getState().getState().equals("Created")) {
+                System.out.println(order.toString());
+            }
+        });
+        System.out.println("Input id of order:");
+        int id = in.nextInt();
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                order.getState().inProcess();
+                System.out.println(order.toString());
+                return;
+            }
+        }
+    }
+
+    public void rejectOrder(List<Order> orders) {
+        orders.forEach(order -> {
+            if (order.getState().getState().equals("Created")) {
+                System.out.println(order.toString());
+            }
+        });
+        System.out.println("Input id of order:");
+        int id = in.nextInt();
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                order.getState().rejected();
+                System.out.println(order.toString());
+                return;
+            }
+        }
+    }
+
+    public void orderDone(List<Order> orders) {
+        orders.forEach(order -> {
+            if (order.getState().getState().equals("Order in process")) {
+                System.out.println(order.toString());
+            }
+        });
+        System.out.println("Input id of order:");
+        int id = in.nextInt();
+        for (Order order : orders) {
+            if (order.getId().equals(id)) {
+                order.getState().done();
+                System.out.println(order.toString());
+                return;
+            }
+        }
+    }
+
+
     public void assignWorker(String junior, String senior) {
         Worker worker = findWorker(junior, director);
         if (worker != null) {
@@ -117,7 +187,7 @@ public class CRMFacade {
             if (findWorker(senior, director) != null) {
                 findWorker(senior, director).list().add(worker);
                 System.out.println("Successful");
-            }else {
+            } else {
                 System.out.println("404");
             }
         }
