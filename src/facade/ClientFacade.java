@@ -1,3 +1,5 @@
+package facade;
+
 import medCenter.MedCenter;
 import observable.MedCenterPublisher;
 import observable.Publisher;
